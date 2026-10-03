@@ -1,0 +1,962 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08070d">
+
+<title>Para ti ❤️</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+}
+
+body{
+    overflow:hidden;
+    background:#08070d;
+    color:white;
+    font-family:Georgia,'Times New Roman',serif;
+}
+
+/* =====================================================
+   ESCENA
+===================================================== */
+
+.escena{
+    position:relative;
+    width:100%;
+    height:100dvh;
+    min-height:500px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(112,65,130,.25),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255,120,180,.08),
+            transparent 30%
+        ),
+        #08070d;
+}
+
+/* Luz central */
+
+.luz{
+    position:absolute;
+    width:min(70vw,700px);
+    height:min(70vw,700px);
+    border-radius:50%;
+
+    background:radial-gradient(
+        circle,
+        rgba(255,255,255,.08),
+        rgba(160,80,180,.04),
+        transparent 70%
+    );
+
+    filter:blur(20px);
+    animation:respirar 6s ease-in-out infinite;
+}
+
+@keyframes respirar{
+
+    0%,100%{
+        transform:scale(.9);
+        opacity:.5;
+    }
+
+    50%{
+        transform:scale(1.1);
+        opacity:1;
+    }
+
+}
+
+/* =====================================================
+   ESTRELLAS
+===================================================== */
+
+#estrellas{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.estrella{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:white;
+    opacity:0;
+
+    animation:
+        aparecerEstrella
+        var(--duracion)
+        ease-in-out
+        infinite;
+}
+
+@keyframes aparecerEstrella{
+
+    0%,100%{
+        opacity:0;
+        transform:scale(.4);
+    }
+
+    50%{
+        opacity:.8;
+        transform:scale(1.5);
+    }
+
+}
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro{
+    position:absolute;
+    inset:0;
+    z-index:20;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    background:#08070d;
+
+    transition:
+        opacity 1.5s ease,
+        visibility 1.5s ease;
+}
+
+.intro.oculta{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.intro-texto{
+    text-align:center;
+    padding:20px;
+}
+
+.intro-texto small{
+    display:block;
+    margin-bottom:25px;
+
+    font-size:12px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+
+    color:#bdb2c5;
+}
+
+.intro-texto h1{
+    font-size:clamp(45px,10vw,80px);
+    font-weight:normal;
+    margin-bottom:20px;
+}
+
+.intro-texto p{
+    color:#aaa3b0;
+    font-size:16px;
+    margin-bottom:40px;
+}
+
+.boton{
+
+    border:1px solid rgba(255,255,255,.3);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.02)
+        );
+
+    color:white;
+
+    padding:15px 35px;
+
+    border-radius:50px;
+
+    font-family:inherit;
+
+    letter-spacing:2px;
+
+    cursor:pointer;
+
+    transition:.4s;
+
+    backdrop-filter:blur(10px);
+}
+
+.boton:hover{
+
+    transform:translateY(-3px);
+
+    background:white;
+
+    color:#111;
+
+    box-shadow:
+        0 10px 40px
+        rgba(255,255,255,.15);
+
+}
+
+/* =====================================================
+   CONTENIDO PRINCIPAL
+===================================================== */
+
+.contenido{
+
+    position:relative;
+
+    width:min(100%,1100px);
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    opacity:0;
+
+    transform:scale(.95);
+
+    transition:
+        opacity 2s ease,
+        transform 2s ease;
+}
+
+.contenido.visible{
+
+    opacity:1;
+    transform:scale(1);
+
+}
+
+/* =====================================================
+   CARTA
+===================================================== */
+
+.carta{
+
+    position:relative;
+
+    z-index:10;
+
+    width:min(75vw,500px);
+
+    aspect-ratio:3 / 4;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #fffdf8,
+            #eee7da
+        );
+
+    color:#302b2b;
+
+    border-radius:4px;
+
+    padding:clamp(25px,5vw,50px);
+
+    box-shadow:
+
+        0 30px 80px
+        rgba(0,0,0,.55),
+
+        0 0 0 1px
+        rgba(255,255,255,.08);
+
+    transform:
+        rotateX(4deg)
+        rotateY(-3deg);
+
+    transition:
+        transform .5s ease,
+        box-shadow .5s ease;
+
+}
+
+/* borde decorativo */
+
+.carta::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:12px;
+
+    border:1px solid
+        rgba(80,50,50,.18);
+
+    pointer-events:none;
+
+}
+
+.carta:hover{
+
+    transform:
+        rotateX(0)
+        rotateY(0)
+        translateY(-5px);
+
+    box-shadow:
+
+        0 40px 100px
+        rgba(0,0,0,.65);
+
+}
+
+/* contenido */
+
+.carta-contenido{
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    text-align:center;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.carta-fecha{
+
+    font-family:Arial,sans-serif;
+
+    font-size:10px;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    color:#9b7c83;
+
+    margin-bottom:25px;
+
+}
+
+.carta h2{
+
+    font-size:clamp(30px,6vw,48px);
+
+    font-weight:normal;
+
+    margin-bottom:20px;
+
+}
+
+.carta p{
+
+    font-size:clamp(14px,2vw,17px);
+
+    line-height:1.9;
+
+    color:#554b4d;
+
+}
+
+.firma{
+
+    margin-top:30px;
+
+    font-style:italic;
+
+    font-size:18px;
+
+}
+
+/* =====================================================
+   FOTOS
+===================================================== */
+
+.foto{
+
+    position:absolute;
+
+    z-index:5;
+
+    width:clamp(100px,15vw,170px);
+
+    aspect-ratio:3 / 4;
+
+    padding:8px 8px 25px;
+
+    background:#fff;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.45);
+
+    transition:
+        transform .6s cubic-bezier(.2,.8,.2,1);
+
+    animation:
+        flotar
+        var(--tiempo)
+        ease-in-out
+        infinite;
+
+}
+
+.foto img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+@keyframes flotar{
+
+    0%,100%{
+        margin-top:0;
+    }
+
+    50%{
+        margin-top:-15px;
+    }
+
+}
+
+/* posiciones */
+
+.foto1{
+
+    left:7%;
+    top:18%;
+
+    transform:
+        rotate(-12deg);
+
+    --tiempo:5s;
+
+}
+
+.foto2{
+
+    right:7%;
+    top:14%;
+
+    transform:
+        rotate(10deg);
+
+    --tiempo:6s;
+
+}
+
+.foto3{
+
+    left:10%;
+    bottom:13%;
+
+    transform:
+        rotate(8deg);
+
+    --tiempo:5.5s;
+
+}
+
+.foto4{
+
+    right:9%;
+    bottom:12%;
+
+    transform:
+        rotate(-9deg);
+
+    --tiempo:6.5s;
+
+}
+
+/* =====================================================
+   BOTON MUSICA
+===================================================== */
+
+.musica{
+
+    position:absolute;
+
+    z-index:30;
+
+    right:20px;
+    top:20px;
+
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    border:1px solid
+        rgba(255,255,255,.2);
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:white;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(10px);
+
+    transition:.3s;
+
+}
+
+.musica:hover{
+
+    transform:scale(1.08);
+
+    background:
+        rgba(255,255,255,.12);
+
+}
+
+/* =====================================================
+   MENSAJE FINAL
+===================================================== */
+
+.mensaje-final{
+
+    position:absolute;
+
+    z-index:15;
+
+    bottom:25px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    color:rgba(255,255,255,.55);
+
+    font-size:11px;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+
+    white-space:nowrap;
+
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:800px){
+
+    .foto{
+
+        width:95px;
+
+        padding:5px 5px 18px;
+
+    }
+
+    .foto1{
+        left:2%;
+        top:15%;
+    }
+
+    .foto2{
+        right:2%;
+        top:13%;
+    }
+
+    .foto3{
+        left:3%;
+        bottom:12%;
+    }
+
+    .foto4{
+        right:3%;
+        bottom:11%;
+    }
+
+    .carta{
+
+        width:min(68vw,390px);
+
+        aspect-ratio:3 / 4.2;
+
+        padding:30px;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .foto{
+
+        width:78px;
+
+        padding:4px 4px 15px;
+
+    }
+
+    .foto1{
+        left:1%;
+        top:18%;
+    }
+
+    .foto2{
+        right:1%;
+        top:17%;
+    }
+
+    .foto3{
+        left:2%;
+        bottom:13%;
+    }
+
+    .foto4{
+        right:2%;
+        bottom:12%;
+    }
+
+    .carta{
+
+        width:66vw;
+
+        min-width:230px;
+
+        padding:24px;
+
+    }
+
+    .carta::before{
+
+        inset:8px;
+
+    }
+
+    .carta p{
+
+        line-height:1.6;
+
+    }
+
+    .mensaje-final{
+
+        font-size:8px;
+
+        letter-spacing:2px;
+
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     AUDIO
+===================================================== -->
+
+<audio id="musica" loop>
+    <source src="sonido/musica.mp3" type="audio/mpeg">
+</audio>
+
+
+<!-- =====================================================
+     ESCENA
+===================================================== -->
+
+<div class="escena">
+
+    <div class="luz"></div>
+
+    <div id="estrellas"></div>
+
+
+    <!-- INTRO -->
+
+    <section class="intro" id="intro">
+
+        <div class="intro-texto">
+
+            <small>Una pequeña sorpresa</small>
+
+            <h1>Para ti ✨</h1>
+
+            <p>
+                Hay algo que quiero enseñarte...
+            </p>
+
+            <button class="boton" id="abrir">
+                ABRIR
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTENIDO -->
+
+    <main class="contenido" id="contenido">
+
+
+        <!-- FOTOS -->
+
+        <div class="foto foto1">
+            <img src="img/foto1.jpeg" alt="Recuerdo 1">
+        </div>
+
+        <div class="foto foto2">
+            <img src="img/foto2.jpg" alt="Recuerdo 2">
+        </div>
+
+        <div class="foto foto3">
+            <img src="img/foto3.jpg" alt="Recuerdo 3">
+        </div>
+
+        <div class="foto foto4">
+            <img src="img/foto4.jpg" alt="Recuerdo 4">
+        </div>
+
+
+        <!-- CARTA -->
+
+        <article class="carta">
+
+            <div class="carta-contenido">
+
+                <div class="carta-fecha">
+                    Para alguien especial
+                </div>
+
+                <h2>Feliz pumpleaños</h2>
+
+                <p>
+                    Hoy quiero recordarte lo especial
+                    que eres y agradecer todos esos
+                    momentos que hemos compartido.
+                </p>
+
+                <p>
+                    Espero que este nuevo año de tu vida
+                    esté lleno de cosas bonitas,
+                    momentos increíbles y muchas razones
+                    para sonreír.
+                </p>
+
+                <div class="firma">
+                    Con cariño ❤️
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </main>
+
+
+    <!-- MUSICA -->
+
+    <button class="musica" id="botonMusica">
+        ♪
+    </button>
+
+
+    <div class="mensaje-final">
+        Un pequeño detalle para ti
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ESTRELLAS
+===================================================== */
+
+const estrellas =
+    document.getElementById("estrellas");
+
+for(let i = 0; i < 100; i++){
+
+    const estrella =
+        document.createElement("span");
+
+    estrella.className = "estrella";
+
+    estrella.style.left =
+        Math.random() * 100 + "%";
+
+    estrella.style.top =
+        Math.random() * 100 + "%";
+
+    estrella.style.setProperty(
+        "--duracion",
+        (2 + Math.random() * 4) + "s"
+    );
+
+    estrella.style.animationDelay =
+        Math.random() * 5 + "s";
+
+    estrellas.appendChild(estrella);
+}
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const intro =
+    document.getElementById("intro");
+
+const contenido =
+    document.getElementById("contenido");
+
+const abrir =
+    document.getElementById("abrir");
+
+const musica =
+    document.getElementById("musica");
+
+const botonMusica =
+    document.getElementById("botonMusica");
+
+
+/* =====================================================
+   ABRIR EXPERIENCIA
+===================================================== */
+
+abrir.addEventListener("click", () => {
+
+    intro.classList.add("oculta");
+
+    setTimeout(() => {
+
+        contenido.classList.add("visible");
+
+    }, 500);
+
+
+    musica.volume = 0.45;
+
+    musica.play().catch(() => {});
+
+});
+
+
+/* =====================================================
+   CONTROL DE MUSICA
+===================================================== */
+
+let reproduciendo = false;
+
+botonMusica.addEventListener("click", () => {
+
+    if(musica.paused){
+
+        musica.play();
+
+        reproduciendo = true;
+
+        botonMusica.textContent = "♫";
+
+    }else{
+
+        musica.pause();
+
+        reproduciendo = false;
+
+        botonMusica.textContent = "♪";
+
+    }
+
+});
+
+
+/* =====================================================
+   MOVIMIENTO 3D EN PC
+===================================================== */
+
+if(window.innerWidth > 800){
+
+    const carta =
+        document.querySelector(".carta");
+
+    document.addEventListener("mousemove", (e) => {
+
+        const x =
+            (window.innerWidth / 2 - e.clientX) / 40;
+
+        const y =
+            (window.innerHeight / 2 - e.clientY) / 40;
+
+        carta.style.transform =
+            `rotateX(${y}deg) rotateY(${-x}deg)`;
+
+    });
+
+}
+
+
+/* =====================================================
+   MOVIMIENTO SUAVE EN CELULAR
+===================================================== */
+
+let ultimoX = 0;
+let ultimoY = 0;
+
+document.addEventListener("touchmove", (e) => {
+
+    if(!e.touches.length) return;
+
+    const touch = e.touches[0];
+
+    ultimoX = touch.clientX;
+    ultimoY = touch.clientY;
+
+}, {passive:true});
+
+
+</script>
+
+</body>
+</html>
+```
